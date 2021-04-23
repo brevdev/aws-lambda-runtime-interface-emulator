@@ -72,16 +72,17 @@ const SandboxClassic SandboxType = "Classic"
 
 // Start message received from the slicer, part of the protocol.
 type Start struct {
-	InvokeID          string
-	Handler           string
-	AwsKey            string
-	AwsSecret         string
-	AwsSession        string
-	SuppressInit      bool
-	XRayDaemonAddress string // only in standalone; not used by slicer
-	FunctionName      string // only in standalone; not used by slicer
-	FunctionVersion   string // only in standalone; not used by slicer
-	CorrelationID     string // internal use only
+	InvokeID            string
+	Handler             string
+	AwsKey              string
+	AwsSecret           string
+	AwsSession          string
+	ResetPostInvocation string
+	SuppressInit        bool
+	XRayDaemonAddress   string // only in standalone; not used by slicer
+	FunctionName        string // only in standalone; not used by slicer
+	FunctionVersion     string // only in standalone; not used by slicer
+	CorrelationID       string // internal use only
 	// TODO: define new Init type that has the Start fields as well as env vars below.
 	// In standalone mode, these env vars come from test/init but from environment otherwise.
 	CustomerEnvironmentVariables map[string]string

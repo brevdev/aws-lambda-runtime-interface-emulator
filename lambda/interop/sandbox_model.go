@@ -5,16 +5,17 @@ package interop
 
 // Init represents an init message and is currently only used in standalone
 type Init struct {
-	InvokeID          string
-	Handler           string
-	AwsKey            string
-	AwsSecret         string
-	AwsSession        string
-	SuppressInit      bool
-	XRayDaemonAddress string // only in standalone
-	FunctionName      string // only in standalone
-	FunctionVersion   string // only in standalone
-	CorrelationID     string // internal use only
+	InvokeID            string
+	Handler             string
+	AwsKey              string
+	AwsSecret           string
+	AwsSession          string
+	ResetPostInvocation string
+	SuppressInit        bool
+	XRayDaemonAddress   string // only in standalone
+	FunctionName        string // only in standalone
+	FunctionVersion     string // only in standalone
+	CorrelationID       string // internal use only
 	// TODO: define new Init type that has the Start fields as well as env vars below.
 	// In standalone mode, these env vars come from test/init but from environment otherwise.
 	CustomerEnvironmentVariables map[string]string

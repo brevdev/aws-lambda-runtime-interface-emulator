@@ -196,7 +196,7 @@ func InitHandler(sandbox Sandbox, functionVersion string, timeout int64) (time.T
 		XRayDaemonAddress: "0.0.0.0:0", // TODO
 		FunctionName:      GetenvWithDefault("AWS_LAMBDA_FUNCTION_NAME", "test_function"),
 		FunctionVersion:   functionVersion,
-
+		ResetPostInvocation: GetenvWithDefault("RESET_POST_FUNCTION_INVOCATION", "FALSE"),
 		CustomerEnvironmentVariables: additionalFunctionEnvironmentVariables,
 	}, timeout*1000)
 	initEnd := time.Now()

@@ -190,6 +190,7 @@ func (b *SandboxBuilder) Init(i *interop.Init, timeoutMs int64) {
 		AwsKey:                       i.AwsKey,
 		AwsSecret:                    i.AwsSecret,
 		AwsSession:                   i.AwsSession,
+		ResetPostInvocation:          i.ResetPostInvocation,
 		XRayDaemonAddress:            i.XRayDaemonAddress,
 		FunctionName:                 i.FunctionName,
 		FunctionVersion:              i.FunctionVersion,

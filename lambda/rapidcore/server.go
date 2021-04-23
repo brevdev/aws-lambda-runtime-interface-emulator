@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 	"time"
 
@@ -66,6 +67,8 @@ type Server struct {
 
 	reservationContext context.Context
 	reservationCancel  func()
+
+	resetPostInvocation bool
 }
 
 func (s *Server) SetInvokeTimeout(timeout time.Duration) {
@@ -369,6 +372,8 @@ func deadlineNsFromTimeoutMs(timeoutMs int64) int64 {
 func (s *Server) Init(i *interop.Start, invokeTimeoutMs int64) {
 	s.SetInvokeTimeout(time.Duration(invokeTimeoutMs) * time.Millisecond)
 
+	s.resetPostInvocation = strings.ToLower(i.ResetPostInvocation) == "true"
+
 	s.startChanOut <- i
 	<-s.sendRunningChan
 	log.Debug("Received RUNNING")
@@ -413,7 +418,10 @@ func (s *Server) Invoke(responseWriter io.Writer, invoke *interop.Invoke) error 
 			timeoutChan <- ErrInvokeTimeout
 			s.Reset(autoresetReasonTimeout, resetDefaultTimeoutMs)
 		case <-resetCtx.Done():
-			log.Debugf("execute finished, autoreset cancelled")
+			if s.resetPostInvocation {
+				go s.Reset(autoresetReasonTimeout, resetDefaultTimeoutMs)
+			}
+			log.Debugf("execute finished")
 		}
 	}()
 	if _, _, err := s.Reserve(invoke.ID); err != nil {
